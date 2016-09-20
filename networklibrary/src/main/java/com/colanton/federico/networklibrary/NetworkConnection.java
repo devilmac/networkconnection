@@ -10,8 +10,6 @@ public class NetworkConnection {
 
     private static NetworkConnection ourInstance = new NetworkConnection();
 
-    private Retrofit retrofit;
-
     private NetworkConnection() {
     }
 
@@ -20,12 +18,9 @@ public class NetworkConnection {
         return ourInstance;
     }
 
-    public void createRetrofitInstance(Context context, String baseUrl) {
+    public <S> S initializeRetrofitInstance(Context context, String baseUrl, Class<S> serviceClass) {
 
-        this.retrofit = RetrofitModule.provideRetrofit(context, baseUrl);
-    }
-
-    public <S> S getRetrofitService(Class<S> serviceClass) {
+        Retrofit retrofit = RetrofitModule.provideRetrofit(context, baseUrl);
 
         return retrofit.create(serviceClass);
     }
