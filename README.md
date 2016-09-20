@@ -7,17 +7,17 @@ If you want to use NetworkConnection in your project, you have to do the followi
 
 * Add Jitpack.io to your root build.gradle file:
 
-	allprojects {
+	   `allprojects {
 		repositories {
 			...
 			maven { url "https://jitpack.io" }
 		}
-	}
+	}`
 
 * Add the gradle dependency to your app build.gradle file:
 
-    dependencies {
+    `dependencies {
         compile 'com.github.devilmac:networkconnection:libVersion'
-    }
+    }`
 
-    where libVersion is the latest version of the library.
+    where `libVersion` is the latest version of the library.
