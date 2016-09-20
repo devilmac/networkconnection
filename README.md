@@ -17,7 +17,7 @@ If you want to use NetworkConnection in your project, you have to do the followi
 * Add the gradle dependency to your app build.gradle file:
 
     dependencies {
-        compile 'com.github.devilmac:networkconnection:<libVersion>'
+        compile 'com.github.devilmac:networkconnection:libVersion'
     }
 
-    where <libVersion> is the latest version of the library.
+    where libVersion is the latest version of the library.
