@@ -2,7 +2,7 @@ apply plugin: 'com.android.library'
 apply plugin: 'me.tatarka.retrolambda'
 apply plugin: 'com.github.dcendents.android-maven'
 
-def libraryVersionName='0.0.1'
+def libraryVersionName='0.0.2'
 
 group = 'com.github.devilmac'
 version = "$libraryVersionName"
