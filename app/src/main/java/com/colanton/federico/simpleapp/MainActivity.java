@@ -29,8 +29,7 @@ public class MainActivity extends AppCompatActivity {
         super.onStart();
 
         NetworkConnection networkConnection = NetworkConnection.getInstance();
-        networkConnection.createRetrofitInstance(this, "http://www.mangaeden.com/api/");
-        MangaEdenService mangaEdenService = networkConnection.getRetrofitService(MangaEdenService.class);
+        MangaEdenService mangaEdenService = networkConnection.initializeRetrofitInstance(this, "http://www.mangaeden.com/api/", MangaEdenService.class);
 
         mangaEdenService.getAllMangaRx(1).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(mangaEdenListResponse -> {
 
