@@ -2,8 +2,6 @@ package com.colanton.federico.networklibrary;
 
 import android.content.Context;
 
-import com.colanton.federico.networklibrary.retrofit.RetrofitModule;
-
 import retrofit2.Retrofit;
 
 public class NetworkConnection {
