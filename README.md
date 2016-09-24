@@ -8,11 +8,11 @@ If you want to use NetworkConnection in your project, you have to do the followi
 
 * Add Jitpack.io to your root build.gradle file:
 
-	   `allprojects {
-	        repositories {
-			    maven { url "https://jitpack.io" }
-		    }
-	    }`
+	   `allprojects {`
+	        `repositories {`
+			    `maven { url "https://jitpack.io" }`
+		    `}`
+	    `}`
 
 * Add the gradle dependency to your app build.gradle file:
 
