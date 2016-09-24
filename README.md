@@ -41,4 +41,4 @@ This library supports [Immutables](https://immutables.github.io/) to create very
     • within this file, add the following lines of code:
         `@org.immutables.gson.Gson.TypeAdapters`
         `package path-to-your-response-package;`
-    • then you have to passing an object GsonAdaptersXXX in the `initializeServiceInstance` as TypeAdapterFactory, where XXX is the name of the last package of your response classes.
+    • then you have to pass an object GsonAdaptersXXX in the `initializeServiceInstance` as TypeAdapterFactory, where XXX is the name of the last package of your response classes.
