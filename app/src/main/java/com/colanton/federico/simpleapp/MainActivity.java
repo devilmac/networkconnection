@@ -33,7 +33,7 @@ public class MainActivity extends AppCompatActivity {
 
         mangaEdenService.getAllMangaRx(1).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(mangaEdenListResponse -> {
 
-            Toast.makeText(MainActivity.this, "Total manga (Rx request): " + mangaEdenListResponse.getTotal(), Toast.LENGTH_LONG).show();
+            Toast.makeText(MainActivity.this, "Total manga (Rx request): " + mangaEdenListResponse.total(), Toast.LENGTH_LONG).show();
         }, Throwable::printStackTrace);
 
         mangaEdenService.getAllManga(0).enqueue(new Callback<MangaEdenListResponse>() {
@@ -41,7 +41,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<MangaEdenListResponse> call, Response<MangaEdenListResponse> response) {
 
-                Toast.makeText(MainActivity.this, "Total manga: " + response.body().getTotal(), Toast.LENGTH_LONG).show();
+                Toast.makeText(MainActivity.this, "Total manga: " + response.body().total(), Toast.LENGTH_LONG).show();
             }
 
             @Override

@@ -3,9 +3,7 @@ apply plugin: 'me.tatarka.retrolambda'
 apply plugin: 'com.github.dcendents.android-maven'
 apply plugin: 'com.neenbedankt.android-apt'
 
-def libraryVersionName = '0.0.2'
-
-def appId = "com.colantoni.federico.networkconnection"
+def libraryVersionName = '0.1.0'
 
 group = 'com.github.devilmac'
 version = "$libraryVersionName"
