@@ -20,7 +20,7 @@ public class MainActivity extends AppCompatActivity {
     public static final String BASE_URL = "http://www.mangaeden.com/api/";
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(final Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
@@ -42,13 +42,13 @@ public class MainActivity extends AppCompatActivity {
         mangaEdenServiceWithImmutables.getAllMangaImmutables(0).enqueue(new Callback<MangaEdenListResponse>() {
 
             @Override
-            public void onResponse(Call<MangaEdenListResponse> call, Response<MangaEdenListResponse> response) {
+            public void onResponse(final Call<MangaEdenListResponse> call, final Response<MangaEdenListResponse> response) {
 
                 Toast.makeText(MainActivity.this, "Total manga - Immutables: " + response.body().total(), Toast.LENGTH_LONG).show();
             }
 
             @Override
-            public void onFailure(Call<MangaEdenListResponse> call, Throwable t) {
+            public void onFailure(final Call<MangaEdenListResponse> call, final Throwable t) {
 
                 t.printStackTrace();
             }
@@ -64,13 +64,13 @@ public class MainActivity extends AppCompatActivity {
         mangaEdenService.getAllManga(0).enqueue(new Callback<com.colanton.federico.simpleapp.service.response.gson.MangaEdenListResponse>() {
 
             @Override
-            public void onResponse(Call<com.colanton.federico.simpleapp.service.response.gson.MangaEdenListResponse> call, Response<com.colanton.federico.simpleapp.service.response.gson.MangaEdenListResponse> response) {
+            public void onResponse(final Call<com.colanton.federico.simpleapp.service.response.gson.MangaEdenListResponse> call, final Response<com.colanton.federico.simpleapp.service.response.gson.MangaEdenListResponse> response) {
 
                 Toast.makeText(MainActivity.this, "Total manga - standard Gson: " + response.body().getTotal(), Toast.LENGTH_LONG).show();
             }
 
             @Override
-            public void onFailure(Call<com.colanton.federico.simpleapp.service.response.gson.MangaEdenListResponse> call, Throwable t) {
+            public void onFailure(final Call<com.colanton.federico.simpleapp.service.response.gson.MangaEdenListResponse> call, final Throwable t) {
 
                 t.printStackTrace();
             }
