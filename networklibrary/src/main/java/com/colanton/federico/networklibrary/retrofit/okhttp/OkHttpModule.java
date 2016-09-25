@@ -14,6 +14,10 @@ public final class OkHttpModule {
 
     private static final double HTTP_RESPONSE_DISK_CACHE_MAX_SIZE = Math.pow(2, 20);
 
+    private OkHttpModule() {
+
+    }
+
     public static OkHttpClient provideOkHttpClient(Context context) {
 
         OkHttpClient.Builder builder = new OkHttpClient.Builder();
