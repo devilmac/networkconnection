@@ -40,7 +40,7 @@ public class NetworkConnection implements Serializable {
         return RetrofitModule.provideRetrofit();
     }
 
-    private Retrofit.Builder addTypeAdapterFactories(Retrofit.Builder builder, TypeAdapterFactory... typeAdapterFactories) {
+    private Retrofit.Builder addTypeAdapterFactories(final Retrofit.Builder builder, final TypeAdapterFactory... typeAdapterFactories) {
 
         if (typeAdapterFactories.length > 0) {
 
@@ -61,7 +61,7 @@ public class NetworkConnection implements Serializable {
         return builder;
     }
 
-    public <S> S initializeServiceInstance(Context context, String baseUrl, Class<S> serviceClass, TypeAdapterFactory... typeAdapterFactories) {
+    public <S> S initializeServiceInstance(final Context context, final String baseUrl, final Class<S> serviceClass, final TypeAdapterFactory... typeAdapterFactories) {
 
         Retrofit.Builder builder = initRetrofitInstance();
 
