@@ -2,7 +2,7 @@ apply plugin: 'com.android.library'
 apply plugin: 'com.neenbedankt.android-apt'
 apply plugin: 'com.github.dcendents.android-maven'
 
-def libraryVersionName = '0.0.1'
+def libraryVersionName = '0.0.1-dagger'
 
 group = 'com.github.devilmac'
 version = "$libraryVersionName"
