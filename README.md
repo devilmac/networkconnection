@@ -9,10 +9,10 @@ If you want to use NetworkConnection in your project, you have to do the followi
 * Add Jitpack.io to your root build.gradle file:
 
 	   `allprojects {`
-	        `repositories {`
-			    `maven { url "https://jitpack.io" }`
-		    `}`
-	    `}`
+            `repositories {`
+			     `maven { url "https://jitpack.io" }`
+			`}`
+	   `}`
 
 * Add the gradle dependency to your app build.gradle file:
 
@@ -28,17 +28,7 @@ Usage is very simple; all you have to do is the following:
     • get an instance of NetworkConnection class like this
         `NetworkConnection netConn=NetworkConnection.getinstance();`
     • then you have to initialize the Retrofit instance:
-        `YourService service = networkConnection.initializeServiceInstance(this, "http://baseUrlOfTheService", TypeAdapterFactory gsonAdapter, YourService.class);`
+        `YourService service = networkConnection.initializeServiceInstance(this, "http://baseUrlOfTheService", YourService.class, TypeAdapterFactory... typeAdapterFactories);`
     • finally, you can make HTTP requests using your service! You can use the standard Retrofit Call<T> class or the Observable<T> class of RxJava. Is up to you which method fits better your needs.
 
-*N.B.*: `gsonAdapter` parameter can be null if you don't want to support Immutables; otherwise see the next section to understand how support Immutables.
-
-**Immutables**
-
-This library supports [Immutables](https://immutables.github.io/) to create very clean response classes. The library provides a base class for response called BaseResponse.java, so you only have to follow these steps to create immutables responses:
-    • switch your classes to be interfaces or abstract classes;
-    • create a file called _package-info.java_ inside the package of response classes;
-    • within this file, add the following lines of code:
-        `@org.immutables.gson.Gson.TypeAdapters`
-        `package path-to-your-response-package;`
-    • then you have to pass an object GsonAdaptersXXX in the `initializeServiceInstance` as TypeAdapterFactory, where XXX is the name of the last package of your response classes.
+*N.B.*: `typeAdapterFactories` is used to pass to Retrofit instance of the library an array of Gson TypeAdapterFactory, if you have your response classes mapped in some way different from standard Gson serialization, like Jackson, Moshi etc., as specified here in Retrofit documentation [Custom converters](http://square.github.io/retrofit/#restadapter-configuration). Check the sample app for an example of usage of custom TypeAdapteractory adapters, in particular it was used Immutables library; you can find a detailed guide here [How to use Immutables with Retrofit in Android](https://medium.com/@fedecola/how-to-use-immutables-with-retrofit-in-android-dde4237deb4f).

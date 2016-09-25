@@ -1,7 +1,7 @@
 package com.colanton.federico.simpleapp.service;
 
 
-import com.colanton.federico.simpleapp.service.response.MangaEdenListResponse;
+import com.colanton.federico.simpleapp.service.response.immutables.MangaEdenListResponse;
 
 import retrofit2.Call;
 import retrofit2.http.GET;
@@ -13,8 +13,16 @@ public interface MangaEdenService {
     String LANGUAGE = "language";
 
     @GET(value = "list/{" + LANGUAGE + "}/")
-    Observable<MangaEdenListResponse> getAllMangaRx(@Path(LANGUAGE) int language);
+    Observable<MangaEdenListResponse> getAllMangaImmutablesRx(@Path(LANGUAGE) int language);
 
     @GET(value = "list/{" + LANGUAGE + "}/")
-    Call<MangaEdenListResponse> getAllManga(@Path((LANGUAGE)) int language);
+    Call<MangaEdenListResponse> getAllMangaImmutables(@Path((LANGUAGE)) int language);
+
+    @GET(value = "list/{" + LANGUAGE + "}/")
+    Observable<com.colanton.federico.simpleapp.service.response.gson.MangaEdenListResponse> getAllMangaRx(@Path(LANGUAGE) int language);
+
+    @GET(value = "list/{" + LANGUAGE + "}/")
+    Call<com.colanton.federico.simpleapp.service.response.gson.MangaEdenListResponse> getAllManga(@Path((LANGUAGE)) int language);
+
+
 }

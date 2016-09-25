@@ -1,7 +1,5 @@
 apply plugin: 'com.android.library'
-apply plugin: 'me.tatarka.retrolambda'
 apply plugin: 'com.github.dcendents.android-maven'
-apply plugin: 'com.neenbedankt.android-apt'
 
 def libraryVersionName = '0.1.0'
 
@@ -26,10 +24,6 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
-    compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
-    }
 }
 
 dependencies {
@@ -40,11 +34,8 @@ dependencies {
     compile 'com.android.support:appcompat-v7:24.2.1'
     testCompile 'junit:junit:4.12'
 
-    retrolambdaConfig "net.orfjackal.retrolambda:retrolambda:2.3.0"
-
     def retrofit = '2.1.0'
     def okhttp3 = '3.4.1'
-    def immutables = '2.3'
 
     compile "com.squareup.retrofit2:retrofit:$retrofit"
     compile "com.squareup.okhttp3:logging-interceptor:$okhttp3"
@@ -52,8 +43,4 @@ dependencies {
     compile "com.squareup.retrofit2:adapter-rxjava:$retrofit"
     compile "io.reactivex:rxjava:1.2.0"
     compile "io.reactivex:rxandroid:1.2.1"
-    compile "org.immutables:value:$immutables"
-    compile "org.immutables:gson:$immutables"
-    compile "org.immutables:builder:$immutables"
-    compile "org.immutables:serial:$immutables"
 }

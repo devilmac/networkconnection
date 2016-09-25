@@ -35,29 +35,37 @@ public class NetworkConnection implements Serializable {
         return instance;
     }
 
-    private Retrofit.Builder addGsonConverterToRetrofit(TypeAdapterFactory typeAdapters) {
+    private Retrofit.Builder initRetrofitInstance() {
 
-        Retrofit.Builder retrofitBuilder = RetrofitModule.provideRetrofit();
-
-        if (typeAdapters != null) {
-
-            GsonBuilder gsonBuilder = new GsonBuilder();
-            gsonBuilder.registerTypeAdapterFactory(typeAdapters);
-
-            GsonConverterFactory gsonConverterFactory = GsonConverterFactory.create(gsonBuilder.create());
-
-            retrofitBuilder.addConverterFactory(gsonConverterFactory);
-        } else {
-
-            retrofitBuilder.addConverterFactory(GsonConverterFactory.create());
-        }
-
-        return retrofitBuilder;
+        return RetrofitModule.provideRetrofit();
     }
 
-    public <S> S initializeServiceInstance(Context context, String baseUrl, TypeAdapterFactory typeAdapterFactory, Class<S> serviceClass) {
+    private Retrofit.Builder addTypeAdapterFactories(Retrofit.Builder builder, TypeAdapterFactory... typeAdapterFactories) {
 
-        Retrofit.Builder builder = addGsonConverterToRetrofit(typeAdapterFactory);
+        if (typeAdapterFactories.length > 0) {
+
+            for (TypeAdapterFactory factory : typeAdapterFactories) {
+
+                GsonBuilder gsonBuilder = new GsonBuilder();
+                gsonBuilder.registerTypeAdapterFactory(factory);
+
+                GsonConverterFactory gsonConverterFactory = GsonConverterFactory.create(gsonBuilder.create());
+
+                builder.addConverterFactory(gsonConverterFactory);
+            }
+        } else {
+
+            builder.addConverterFactory(GsonConverterFactory.create());
+        }
+
+        return builder;
+    }
+
+    public <S> S initializeServiceInstance(Context context, String baseUrl, Class<S> serviceClass, TypeAdapterFactory... typeAdapterFactories) {
+
+        Retrofit.Builder builder = initRetrofitInstance();
+
+        builder = addTypeAdapterFactories(builder, typeAdapterFactories);
 
         builder.client(OkHttpModule.provideOkHttpClient(context)).baseUrl(baseUrl);
 
