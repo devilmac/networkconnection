@@ -1,5 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.colanton.federico.networklibrary">
+    package="com.colantoni.federico.networklibrary">
 
     <uses-permission android:name="android.permission.INTERNET" />
 
