@@ -25,9 +25,9 @@ If you want to use NetworkConnection in your project, you have to do the followi
 **How to use**
 
 Usage is very simple; all you have to do is the following:  
+* call `setBaseURL()` method to set the base URL of your services  
 * get an instance of NetworkConnection class like this  
         `NetworkConnection netConn = NetworkConnection.getinstance();`  
-* call `setBaseURL()` method to set the base URL of your services  
 * then you have to initialize the Retrofit instance:  
         `YourService service = networkConnection.initializeServiceInstance(this, YourService.class, TypeAdapterFactory... typeAdapterFactories);`  
 * finally, you can make HTTP requests using your service! You can use the standard Retrofit Call<T> class or the Observable<T> class of RxJava. Is up to you which method fits better your needs.
