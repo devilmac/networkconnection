@@ -31,8 +31,10 @@ public class MainActivity extends AppCompatActivity {
 
         super.onStart();
 
+        NetworkConnection.setBaseUrl(BASE_URL);
+
         NetworkConnection networkConnection = NetworkConnection.getInstance();
-        MangaEdenService mangaEdenServiceWithImmutables = networkConnection.initializeServiceInstance(this, BASE_URL, MangaEdenService.class, new GsonAdaptersImmutables());
+        MangaEdenService mangaEdenServiceWithImmutables = networkConnection.initializeServiceInstance(this, MangaEdenService.class, new GsonAdaptersImmutables());
 
         mangaEdenServiceWithImmutables.getAllMangaImmutablesRx(1).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(mangaEdenListResponse -> {
 
