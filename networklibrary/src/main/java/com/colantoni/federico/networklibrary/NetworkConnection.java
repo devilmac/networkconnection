@@ -25,7 +25,7 @@ public final class NetworkConnection implements Serializable {
     /**
      * Global base URL.
      */
-    private static String sBaseUrl;
+    private String mBaseUrl;
 
     /**
      * Private constructor.
@@ -57,9 +57,9 @@ public final class NetworkConnection implements Serializable {
      *
      * @param baseUrl the base URL to use.
      */
-    public static void setBaseUrl(final String baseUrl) {
+    public void setBaseUrl(final String baseUrl) {
 
-        sBaseUrl = baseUrl;
+        mBaseUrl = baseUrl;
     }
 
     /**
@@ -113,9 +113,9 @@ public final class NetworkConnection implements Serializable {
 
         builder = addTypeAdapterFactories(builder, typeAdapterFactories);
 
-        if (sBaseUrl != null) {
+        if (mBaseUrl != null) {
 
-            builder.client(OkHttpModule.provideOkHttpClient(context)).baseUrl(sBaseUrl);
+            builder.client(OkHttpModule.provideOkHttpClient(context)).baseUrl(mBaseUrl);
         } else {
 
             throw new IllegalArgumentException("You have to set a base URL before call this method!");
