@@ -23,6 +23,11 @@ public final class NetworkConnection implements Serializable {
     private static volatile NetworkConnection instance = null;
 
     /**
+     * Global base URL.
+     */
+    private static String sBaseUrl;
+
+    /**
      * Private constructor.
      */
     private NetworkConnection() {
@@ -45,6 +50,16 @@ public final class NetworkConnection implements Serializable {
         }
 
         return instance;
+    }
+
+    /**
+     * Allows to set a global base URL for the services.
+     *
+     * @param baseUrl the base URL to use.
+     */
+    public static void setBaseUrl(final String baseUrl) {
+
+        sBaseUrl = baseUrl;
     }
 
     /**
@@ -87,19 +102,24 @@ public final class NetworkConnection implements Serializable {
      * This method initializes an instance of the service you want to use.
      *
      * @param context              The app/activity {@link Context} used.
-     * @param baseUrl              The base URL used to initialize the service.
      * @param serviceClass         The kind of service to be used.
      * @param typeAdapterFactories An array of TypeAdapterFactory to be added to the service; maybe empty.
      * @param <S>                  Generic type of service class.
      * @return An initialized instance of the specified service class.
      */
-    public <S> S initializeServiceInstance(final Context context, final String baseUrl, final Class<S> serviceClass, final TypeAdapterFactory... typeAdapterFactories) {
+    public <S> S initializeServiceInstance(final Context context, final Class<S> serviceClass, final TypeAdapterFactory... typeAdapterFactories) {
 
         Retrofit.Builder builder = initRetrofitInstance();
 
         builder = addTypeAdapterFactories(builder, typeAdapterFactories);
 
-        builder.client(OkHttpModule.provideOkHttpClient(context)).baseUrl(baseUrl);
+        if (sBaseUrl != null) {
+
+            builder.client(OkHttpModule.provideOkHttpClient(context)).baseUrl(sBaseUrl);
+        } else {
+
+            throw new IllegalArgumentException("You have to set a base URL before call this method!");
+        }
 
         Retrofit retrofit = builder.build();
 

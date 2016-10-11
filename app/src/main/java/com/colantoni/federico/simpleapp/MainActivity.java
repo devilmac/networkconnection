@@ -54,7 +54,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        MangaEdenService mangaEdenService = networkConnection.initializeServiceInstance(this, BASE_URL, MangaEdenService.class);
+        MangaEdenService mangaEdenService = networkConnection.initializeServiceInstance(this, MangaEdenService.class);
 
         mangaEdenService.getAllMangaRx(1).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(mangaEdenListResponse -> {
 
