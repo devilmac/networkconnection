@@ -8,6 +8,7 @@ import retrofit2.http.GET;
 import retrofit2.http.Path;
 import rx.Observable;
 
+
 public interface MangaEdenService {
 
     String LANGUAGE = "language";
@@ -23,6 +24,4 @@ public interface MangaEdenService {
 
     @GET(value = "list/{" + LANGUAGE + "}/")
     Call<com.colantoni.federico.simpleapp.service.response.gson.MangaEdenListResponse> getAllManga(@Path((LANGUAGE)) int language);
-
-
 }

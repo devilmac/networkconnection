@@ -1,8 +1,10 @@
 package com.colantoni.federico.simpleapp.service.response.immutables;
 
+
 import org.immutables.value.Value;
 
 import java.util.List;
+
 
 @Value.Immutable
 public interface MangaEdenListResponse {
