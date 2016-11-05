@@ -1,5 +1,6 @@
 package com.colantoni.federico.networklibrary.retrofit.okhttp;
 
+
 import android.content.Context;
 
 import com.colantoni.federico.networklibrary.BuildConfig;
@@ -9,6 +10,7 @@ import java.io.File;
 import okhttp3.Cache;
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
+
 
 /**
  * Class that provides the instance of {@link OkHttpClient}.
@@ -29,6 +31,7 @@ public final class OkHttpModule {
 
     /**
      * @param context The app/activity {@link Context} used.
+     *
      * @return An instance of {@link OkHttpClient}.
      */
     public static OkHttpClient provideOkHttpClient(final Context context) {

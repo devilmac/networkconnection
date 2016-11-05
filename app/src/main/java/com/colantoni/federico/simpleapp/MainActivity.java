@@ -1,5 +1,6 @@
 package com.colantoni.federico.simpleapp;
 
+
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.Toast;
@@ -14,6 +15,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
+
 
 public class MainActivity extends AppCompatActivity {
 
@@ -66,7 +68,8 @@ public class MainActivity extends AppCompatActivity {
         mangaEdenService.getAllManga(0).enqueue(new Callback<com.colantoni.federico.simpleapp.service.response.gson.MangaEdenListResponse>() {
 
             @Override
-            public void onResponse(final Call<com.colantoni.federico.simpleapp.service.response.gson.MangaEdenListResponse> call, final Response<com.colantoni.federico.simpleapp.service.response.gson.MangaEdenListResponse> response) {
+            public void onResponse(final Call<com.colantoni.federico.simpleapp.service.response.gson.MangaEdenListResponse> call,
+                                   final Response<com.colantoni.federico.simpleapp.service.response.gson.MangaEdenListResponse> response) {
 
                 Toast.makeText(MainActivity.this, "Total manga - standard Gson: " + response.body().getTotal(), Toast.LENGTH_LONG).show();
             }

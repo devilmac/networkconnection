@@ -1,10 +1,12 @@
 package com.colantoni.federico.simpleapp.service.response.immutables;
 
+
 import android.support.annotation.Nullable;
 
 import com.google.gson.annotations.SerializedName;
 
 import org.immutables.value.Value;
+
 
 @Value.Immutable
 public abstract class MangaEdenListResponseManga {

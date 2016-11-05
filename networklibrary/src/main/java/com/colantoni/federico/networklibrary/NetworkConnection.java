@@ -1,5 +1,6 @@
 package com.colantoni.federico.networklibrary;
 
+
 import android.content.Context;
 
 import com.colantoni.federico.networklibrary.retrofit.RetrofitModule;
@@ -11,6 +12,7 @@ import java.io.Serializable;
 
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
+
 
 /**
  * Singleton class to be used as HTTP request manager.
@@ -31,6 +33,7 @@ public final class NetworkConnection implements Serializable {
      * Private constructor.
      */
     private NetworkConnection() {
+
     }
 
     /**
@@ -63,6 +66,35 @@ public final class NetworkConnection implements Serializable {
     }
 
     /**
+     * This method initializes an instance of the service you want to use.
+     *
+     * @param context              The app/activity {@link Context} used.
+     * @param serviceClass         The kind of service to be used.
+     * @param typeAdapterFactories An array of TypeAdapterFactory to be added to the service; maybe empty.
+     * @param <S>                  Generic type of service class.
+     *
+     * @return An initialized instance of the specified service class.
+     */
+    public <S> S initializeServiceInstance(final Context context, final Class<S> serviceClass, final TypeAdapterFactory... typeAdapterFactories) {
+
+        Retrofit.Builder builder = initRetrofitInstance();
+
+        builder = addTypeAdapterFactories(builder, typeAdapterFactories);
+
+        if (sBaseUrl != null) {
+
+            builder.client(OkHttpModule.provideOkHttpClient(context)).baseUrl(sBaseUrl);
+        } else {
+
+            throw new IllegalArgumentException("You have to set a base URL before call this method!");
+        }
+
+        Retrofit retrofit = builder.build();
+
+        return retrofit.create(serviceClass);
+    }
+
+    /**
      * @return An instance of Retrofit.
      */
     private Retrofit.Builder initRetrofitInstance() {
@@ -75,6 +107,7 @@ public final class NetworkConnection implements Serializable {
      *
      * @param builder              The instance of Retrofit.Builder to add adapter factories.
      * @param typeAdapterFactories An array of TypeAdapteractory; maybe empty.
+     *
      * @return The same instance of Retrofit.Builder passed as parameter.
      */
     private Retrofit.Builder addTypeAdapterFactories(final Retrofit.Builder builder, final TypeAdapterFactory... typeAdapterFactories) {
@@ -96,33 +129,5 @@ public final class NetworkConnection implements Serializable {
         }
 
         return builder;
-    }
-
-    /**
-     * This method initializes an instance of the service you want to use.
-     *
-     * @param context              The app/activity {@link Context} used.
-     * @param serviceClass         The kind of service to be used.
-     * @param typeAdapterFactories An array of TypeAdapterFactory to be added to the service; maybe empty.
-     * @param <S>                  Generic type of service class.
-     * @return An initialized instance of the specified service class.
-     */
-    public <S> S initializeServiceInstance(final Context context, final Class<S> serviceClass, final TypeAdapterFactory... typeAdapterFactories) {
-
-        Retrofit.Builder builder = initRetrofitInstance();
-
-        builder = addTypeAdapterFactories(builder, typeAdapterFactories);
-
-        if (sBaseUrl != null) {
-
-            builder.client(OkHttpModule.provideOkHttpClient(context)).baseUrl(sBaseUrl);
-        } else {
-
-            throw new IllegalArgumentException("You have to set a base URL before call this method!");
-        }
-
-        Retrofit retrofit = builder.build();
-
-        return retrofit.create(serviceClass);
     }
 }
