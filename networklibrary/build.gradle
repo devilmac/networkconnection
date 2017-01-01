@@ -29,8 +29,8 @@ dependencies {
     testCompile 'junit:junit:4.12'
 
     def retrofit = '2.1.0'
-    def okhttp3 = '3.4.1'
-    def rxJava = '1.2.0'
+    def okhttp3 = '3.5.0'
+    def rxJava = '1.2.4'
     def rxAndroid = '1.2.1'
 
     compile "com.squareup.retrofit2:retrofit:$retrofit"
@@ -39,4 +39,8 @@ dependencies {
     compile "com.squareup.retrofit2:adapter-rxjava:$retrofit"
     compile "io.reactivex:rxjava:$rxJava"
     compile "io.reactivex:rxandroid:$rxAndroid"
+
+    compile 'com.android.tools.lint:lint-api:25.3.0-beta1'
+    testCompile 'com.android.tools.lint:lint-tests:24.3.1'
+    testCompile 'com.android.tools:testutils:24.3.1'
 }

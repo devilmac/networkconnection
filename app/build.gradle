@@ -27,16 +27,16 @@ android {
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
-    androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
+    compile project(":networklibrary")
+    androidTestCompile('com.android.support.test.espresso:espresso-core:2.3-alpha', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
-    compile 'com.android.support:appcompat-v7:25.0.0'
+    compile 'com.android.support:appcompat-v7:25.1.0'
     testCompile 'junit:junit:4.12'
-    compile project(":networklibrary")
 
     retrolambdaConfig "net.orfjackal.retrolambda:retrolambda:2.3.0"
 
-    def immutables = '2.3.8'
+    def immutables = '2.3.10'
 
     apt "org.immutables:value:$immutables"
     provided "org.immutables:value:$immutables"
