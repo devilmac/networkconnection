@@ -3,6 +3,7 @@ package com.colantoni.federico.simpleapp;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.colantoni.federico.networklibrary.NetworkConnection;
@@ -35,13 +36,11 @@ public class MainActivity extends AppCompatActivity {
 
         NetworkConnection.setBaseUrl(BASE_URL);
 
-        NetworkConnection networkConnection = NetworkConnection.getInstance();
-        MangaEdenService mangaEdenServiceWithImmutables = networkConnection.initializeServiceInstance(this, MangaEdenService.class, new GsonAdaptersImmutables());
+        MangaEdenService mangaEdenServiceWithImmutables = NetworkConnection.initializeServiceInstance(MangaEdenService.class, new GsonAdaptersImmutables());
 
-        mangaEdenServiceWithImmutables.getAllMangaImmutablesRx(1).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(mangaEdenListResponse -> {
-
-            Toast.makeText(MainActivity.this, "Total manga (Rx request) - Immutables: " + mangaEdenListResponse.total(), Toast.LENGTH_LONG).show();
-        }, Throwable::printStackTrace);
+        mangaEdenServiceWithImmutables.getAllMangaImmutablesRx(1).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(
+                mangaEdenListResponse -> Toast.makeText(MainActivity.this, "Total manga (Rx request) - Immutables: " + mangaEdenListResponse.total(), Toast.LENGTH_LONG).show(),
+                Throwable::printStackTrace);
 
         mangaEdenServiceWithImmutables.getAllMangaImmutables(0).enqueue(new Callback<MangaEdenListResponse>() {
 
@@ -54,16 +53,15 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onFailure(final Call<MangaEdenListResponse> call, final Throwable t) {
 
-                t.printStackTrace();
+                Log.e("RETROFIT", t.getLocalizedMessage(), t);
             }
         });
 
-        MangaEdenService mangaEdenService = networkConnection.initializeServiceInstance(this, MangaEdenService.class);
+        MangaEdenService mangaEdenService = NetworkConnection.initializeServiceInstance(MangaEdenService.class);
 
-        mangaEdenService.getAllMangaRx(1).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(mangaEdenListResponse -> {
-
-            Toast.makeText(MainActivity.this, "Total manga (Rx request) - standard Gson: " + mangaEdenListResponse.getTotal(), Toast.LENGTH_LONG).show();
-        }, Throwable::printStackTrace);
+        mangaEdenService.getAllMangaRx(1).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(
+                mangaEdenListResponse -> Toast.makeText(MainActivity.this, "Total manga (Rx request) - standard Gson: " + mangaEdenListResponse.getTotal(), Toast.LENGTH_LONG).show(),
+                Throwable::printStackTrace);
 
         mangaEdenService.getAllManga(0).enqueue(new Callback<com.colantoni.federico.simpleapp.service.response.gson.MangaEdenListResponse>() {
 
@@ -77,7 +75,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onFailure(final Call<com.colantoni.federico.simpleapp.service.response.gson.MangaEdenListResponse> call, final Throwable t) {
 
-                t.printStackTrace();
+                Log.e("RETROFIT", t.getLocalizedMessage(), t);
             }
         });
     }
