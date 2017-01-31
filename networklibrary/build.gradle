@@ -1,42 +1,41 @@
-apply plugin: 'com.android.library'
+apply plugin: 'java'
 apply plugin: 'com.github.dcendents.android-maven'
+apply plugin: 'me.tatarka.retrolambda'
 
-def libraryVersionName = '0.2.3'
+def libraryVersionName = '0.3.0'
 
 group = 'com.github.devilmac'
 version = "$libraryVersionName"
 
-android {
-    compileSdkVersion rootProject.ext.compileSdkVersion
-    buildToolsVersion rootProject.ext.buildToolsVersion
+sourceCompatibility = JavaVersion.VERSION_1_8
+targetCompatibility = JavaVersion.VERSION_1_8
 
-    defaultConfig {
-        minSdkVersion rootProject.ext.minSdkVersion
-        targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 1
-        versionName "$libraryVersionName"
-    }
-    buildTypes {
-        release {
-            minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+buildscript {
+    repositories {
+        maven {
+            url "https://plugins.gradle.org/m2/"
         }
     }
+    dependencies {
+        classpath "net.ltgt.gradle:gradle-apt-plugin:0.9"
+    }
 }
+
+apply plugin: "net.ltgt.apt"
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     testCompile 'junit:junit:4.12'
 
     def retrofit = '2.1.0'
-    def okhttp3 = '3.4.1'
-    def rxJava = '1.2.0'
-    def rxAndroid = '1.2.1'
+    def okhttp3 = '3.5.0'
+    def rxJava = '1.2.4'
+
+    retrolambdaConfig "net.orfjackal.retrolambda:retrolambda:2.3.0"
 
     compile "com.squareup.retrofit2:retrofit:$retrofit"
     compile "com.squareup.okhttp3:logging-interceptor:$okhttp3"
     compile "com.squareup.retrofit2:converter-gson:$retrofit"
     compile "com.squareup.retrofit2:adapter-rxjava:$retrofit"
     compile "io.reactivex:rxjava:$rxJava"
-    compile "io.reactivex:rxandroid:$rxAndroid"
 }
