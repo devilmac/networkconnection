@@ -24,6 +24,11 @@ public final class NetworkConnection implements Serializable {
     private static String sBaseUrl;
 
     /**
+     * Custom OkHttpClient client
+     */
+    private static OkHttpClient sOkHttpClient;
+
+    /**
      * Private constructor.
      */
     private NetworkConnection() {
@@ -41,16 +46,25 @@ public final class NetworkConnection implements Serializable {
     }
 
     /**
+     * You can set a custom OkHttpClient to use in place of the default provided by the library.
+     *
+     * @param okHttpClient custom OkHttpClient.
+     */
+    public static void setCustomOkHttpClient(OkHttpClient okHttpClient) {
+
+        sOkHttpClient = okHttpClient;
+    }
+
+    /**
      * This method initializes an instance of the service you want to use.
      *
      * @param serviceClass         The kind of service to be used.
-     * @param okHttpClient         A custom OkHttpClient to use in place of the standard provided by the library. Pass null if you want to use the default client.
      * @param typeAdapterFactories An array of TypeAdapterFactory to be added to the service; maybe empty.
      * @param <S>                  Generic type of service class.
      *
      * @return An initialized instance of the specified service class.
      */
-    public static <S> S initializeServiceInstance(final Class<S> serviceClass, OkHttpClient okHttpClient, final TypeAdapterFactory... typeAdapterFactories) {
+    public static <S> S initializeServiceInstance(final Class<S> serviceClass, final TypeAdapterFactory... typeAdapterFactories) {
 
         Retrofit.Builder builder = initRetrofitInstance();
 
@@ -58,9 +72,9 @@ public final class NetworkConnection implements Serializable {
 
         if (sBaseUrl != null) {
 
-            if (okHttpClient != null) {
+            if (sOkHttpClient != null) {
 
-                builder.client(okHttpClient);
+                builder.client(sOkHttpClient);
             }
             else {
                 builder.client(OkHttpModule.provideOkHttpClient()).baseUrl(sBaseUrl);

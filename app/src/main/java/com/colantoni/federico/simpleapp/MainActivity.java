@@ -39,8 +39,9 @@ public class MainActivity extends AppCompatActivity {
         super.onStart();
 
         NetworkConnection.setBaseUrl(BASE_URL);
+        NetworkConnection.setCustomOkHttpClient(getOkHttpClient());
 
-        MangaEdenService mangaEdenServiceWithImmutables = NetworkConnection.initializeServiceInstance(MangaEdenService.class, getOkHttpClient(), new GsonAdaptersImmutables());
+        MangaEdenService mangaEdenServiceWithImmutables = NetworkConnection.initializeServiceInstance(MangaEdenService.class, new GsonAdaptersImmutables());
 
         mangaEdenServiceWithImmutables.getAllMangaImmutablesRx(1).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(mangaEdenListResponse -> Toast.makeText
                 (MainActivity.this, "Total manga (Rx request) - Immutables: " + mangaEdenListResponse.total(), Toast.LENGTH_LONG).show(), Throwable::printStackTrace);
@@ -60,7 +61,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        MangaEdenService mangaEdenService = NetworkConnection.initializeServiceInstance(MangaEdenService.class, null);
+        MangaEdenService mangaEdenService = NetworkConnection.initializeServiceInstance(MangaEdenService.class);
 
         mangaEdenService.getAllMangaRx(1).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(mangaEdenListResponse -> Toast.makeText(MainActivity.this, "Total manga "
                 + "(Rx request) - standard Gson: " + mangaEdenListResponse.getTotal(), Toast.LENGTH_LONG).show(), Throwable::printStackTrace);
