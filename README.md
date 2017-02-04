@@ -30,8 +30,8 @@ Usage is very simple. All you have to do is the following:
 * it's not longer needed to get an instance of NetworkConnection class, you can simply call `NetworkConnection.initializeServiceInstance()` method create an instance of the service you want to use:
         `YourService service = NetworkConnection.initializeServiceInstance(this, YourService.class);`
 * if you have to add some JSON adapters different from the standard GSON serialization, like Jackson, Moshi, etc., you have to add them to the method above this way:
-        `YourService service = NetworkConnection.initializeServiceInstance(this, YourService.class, TypeAdapterFactory... typeAdapterFactories);`
-Check the Retrofit documentation for more details [Custom converters](http://square.github.io/retrofit/#restadapter-configuration).
+        `YourService service = NetworkConnection.initializeServiceInstance(this, YourService.class, new TypeAdapterFactory());`
+        Check the Retrofit documentation for more details on [custom converters](http://square.github.io/retrofit/#restadapter-configuration).
 * finally, you can make HTTP requests using your service! In your service you can use the standard Retrofit Call<T> class or the Observable<T> class of RxJava. Is up to you choose which method fits better your needs.
 
-*N.B.*: Check the sample app for an example of usage of custom TypeAdapteractory adapters, in particular it was used Immutables library; you can find a detailed guide here [How to use Immutables with Retrofit in Android](https://medium.com/@fedecola/how-to-use-immutables-with-retrofit-in-android-dde4237deb4f).
+*N.B.*: Check the sample app for an example of usage of custom TypeAdapterFactory adapters, in particular it was used Immutables library; you can find a detailed guide here [How to use Immutables with Retrofit in Android](https://medium.com/@fedecola/how-to-use-immutables-with-retrofit-in-android-dde4237deb4f).
