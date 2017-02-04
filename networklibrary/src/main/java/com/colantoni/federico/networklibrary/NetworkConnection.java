@@ -8,6 +8,7 @@ import com.google.gson.TypeAdapterFactory;
 
 import java.io.Serializable;
 
+import okhttp3.OkHttpClient;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
@@ -43,12 +44,13 @@ public final class NetworkConnection implements Serializable {
      * This method initializes an instance of the service you want to use.
      *
      * @param serviceClass         The kind of service to be used.
+     * @param okHttpClient         A custom OkHttpClient to use in place of the standard provided by the library. Pass null if you want to use the default client.
      * @param typeAdapterFactories An array of TypeAdapterFactory to be added to the service; maybe empty.
      * @param <S>                  Generic type of service class.
      *
      * @return An initialized instance of the specified service class.
      */
-    public static <S> S initializeServiceInstance(final Class<S> serviceClass, final TypeAdapterFactory... typeAdapterFactories) {
+    public static <S> S initializeServiceInstance(final Class<S> serviceClass, OkHttpClient okHttpClient, final TypeAdapterFactory... typeAdapterFactories) {
 
         Retrofit.Builder builder = initRetrofitInstance();
 
@@ -56,8 +58,15 @@ public final class NetworkConnection implements Serializable {
 
         if (sBaseUrl != null) {
 
-            builder.client(OkHttpModule.provideOkHttpClient()).baseUrl(sBaseUrl);
-        } else {
+            if (okHttpClient != null) {
+
+                builder.client(okHttpClient);
+            }
+            else {
+                builder.client(OkHttpModule.provideOkHttpClient()).baseUrl(sBaseUrl);
+            }
+        }
+        else {
 
             throw new IllegalArgumentException("You have to set a base URL before call this method!");
         }
@@ -96,7 +105,8 @@ public final class NetworkConnection implements Serializable {
 
                 builder.addConverterFactory(gsonConverterFactory);
             }
-        } else {
+        }
+        else {
 
             builder.addConverterFactory(GsonConverterFactory.create());
         }
