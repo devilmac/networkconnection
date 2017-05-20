@@ -1,6 +1,5 @@
 apply plugin: 'java'
 apply plugin: 'com.github.dcendents.android-maven'
-apply plugin: 'me.tatarka.retrolambda'
 
 def libraryVersionName = '0.3.2'
 
@@ -27,11 +26,9 @@ dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     testCompile 'junit:junit:4.12'
 
-    def retrofit = '2.1.0'
-    def okhttp3 = '3.5.0'
+    def retrofit = '2.3.0'
+    def okhttp3 = '3.8.0'
     def rxJava = '1.2.4'
-
-    retrolambdaConfig "net.orfjackal.retrolambda:retrolambda:2.3.0"
 
     compile "com.squareup.retrofit2:retrofit:$retrofit"
     compile "com.squareup.okhttp3:logging-interceptor:$okhttp3"
