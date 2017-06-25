@@ -2,7 +2,7 @@ package com.colantoni.federico.networklibrary.retrofit;
 
 
 import retrofit2.Retrofit;
-import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
+import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 
 
 /**
@@ -24,6 +24,6 @@ public final class RetrofitModule {
 
         final Retrofit.Builder builder = new Retrofit.Builder();
 
-        return builder.addCallAdapterFactory(RxJavaCallAdapterFactory.create());
+        return builder.addCallAdapterFactory(RxJava2CallAdapterFactory.create());
     }
 }

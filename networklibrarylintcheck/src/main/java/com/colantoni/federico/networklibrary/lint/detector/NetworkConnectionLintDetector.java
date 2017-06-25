@@ -31,7 +31,7 @@ import lombok.ast.MethodDeclaration;
 import lombok.ast.Node;
 
 
-public class NetworkConnectionLintDetector extends Detector implements Detector.JavaScanner {
+public class NetworkConnectionLintDetector extends Detector implements Detector.UastScanner {
 
     private static final String ON_CREATE_SIG = "(Landroid/os/Bundle;)V";
 
@@ -47,9 +47,8 @@ public class NetworkConnectionLintDetector extends Detector implements Detector.
 
     private static final String ISSUE_DESCRIPTION = "NetworkConnection.setBaseUrl() method required";
 
-    private static final String ISSUE_EXPLANATION =
-            "You have to set the base URL for your services using the NetworkConnection.setBaseUrl() method, otherwise project won't compile. It's recommended to call this method inside a custom " +
-            "application class.";
+    private static final String ISSUE_EXPLANATION = "You have to set the base URL for your services using the NetworkConnection.setBaseUrl() method, otherwise project won't compile. It's " +
+    "recommended to call this method inside a custom " + "application class.";
 
     private static final Category ISSUE_CATEGORY = Category.CORRECTNESS;
 
@@ -86,13 +85,28 @@ public class NetworkConnectionLintDetector extends Detector implements Detector.
     @Override
     public List<Class<? extends Node>> getApplicableNodeTypes() {
 
-        return Collections.<Class<? extends Node>>singletonList(MethodDeclaration.class);
+        return Collections.singletonList(MethodDeclaration.class);
     }
 
     @Override
-    public List<String> applicableSuperClasses() {
+    public void checkClass(@NonNull final ClassContext context, @NonNull final ClassNode classNode) {
 
-        return Arrays.asList(SdkConstants.CLASS_ACTIVITY, SdkConstants.CLASS_APPLICATION, SdkConstants.CLASS_FRAGMENT, SdkConstants.CLASS_V4_FRAGMENT);
+        super.checkClass(context, classNode);
+
+        Location location = context.getLocation(classNode);
+
+        if (!context.getDriver().isSubclassOf(classNode, SdkConstants.CLASS_ACTIVITY) || !context.getDriver().isSubclassOf(classNode, SdkConstants.CLASS_FRAGMENT) || !context.getDriver()
+        .isSubclassOf(classNode, SdkConstants.CLASS_V4_FRAGMENT) || !context.getDriver().isSubclassOf(classNode, SdkConstants.CLASS_APPLICATION)) {
+
+            return;
+        }
+
+        boolean callsBeginTransaction = checkIfCallBeginTransation(classNode);
+
+        if (!callsBeginTransaction) {
+
+            context.report(ISSUE, location, "You have to call " + BASE_URL_METHOD);
+        }
     }
 
     //    @Override
@@ -119,24 +133,9 @@ public class NetworkConnectionLintDetector extends Detector implements Detector.
     //    }
 
     @Override
-    public void checkClass(@NonNull final ClassContext context, @NonNull final ClassNode classNode) {
+    public List<String> applicableSuperClasses() {
 
-        super.checkClass(context, classNode);
-
-        Location location = context.getLocation(classNode);
-
-        if (!context.getDriver().isSubclassOf(classNode, SdkConstants.ANDROID_APP_ACTIVITY) || !context.getDriver().isSubclassOf(classNode, SdkConstants.FRAGMENT) ||
-            !context.getDriver().isSubclassOf(classNode, SdkConstants.FRAGMENT_V4) || !context.getDriver().isSubclassOf(classNode, "android/app/Application")) {
-
-            return;
-        }
-
-        boolean callsBeginTransaction = checkIfCallBeginTransation(classNode);
-
-        if (!callsBeginTransaction) {
-
-            context.report(ISSUE, location, "You have to call " + BASE_URL_METHOD);
-        }
+        return Arrays.asList(SdkConstants.CLASS_ACTIVITY, SdkConstants.CLASS_APPLICATION, SdkConstants.CLASS_FRAGMENT, SdkConstants.CLASS_V4_FRAGMENT);
     }
 
     //    private static void iterateOnClassMethods(@NonNull final JavaParser.ResolvedClass resolvedClass, final String methodName) {
