@@ -12,14 +12,14 @@ import com.colantoni.federico.simpleapp.service.MangaEdenService;
 import com.colantoni.federico.simpleapp.service.response.immutables.GsonAdaptersImmutables;
 import com.colantoni.federico.simpleapp.service.response.immutables.MangaEdenListResponse;
 
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.schedulers.Schedulers;
 import okhttp3.Cache;
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.schedulers.Schedulers;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -43,19 +43,18 @@ public class MainActivity extends AppCompatActivity {
 
         MangaEdenService mangaEdenServiceWithImmutables = NetworkConnection.initializeServiceInstance(MangaEdenService.class, new GsonAdaptersImmutables());
 
-        mangaEdenServiceWithImmutables.getAllMangaImmutablesRx(1).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(mangaEdenListResponse -> Toast.makeText
-                (MainActivity.this, "Total manga (Rx request) - Immutables: " + mangaEdenListResponse.total(), Toast.LENGTH_LONG).show(), Throwable::printStackTrace);
+        mangaEdenServiceWithImmutables.getAllMangaImmutablesRx(1).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(mangaEdenListResponse -> Toast.makeText(MainActivity.this, "Total manga (Rx request) - Immutables: " + mangaEdenListResponse.total(), Toast.LENGTH_LONG).show(), Throwable::printStackTrace);
 
         mangaEdenServiceWithImmutables.getAllMangaImmutables(0).enqueue(new Callback<MangaEdenListResponse>() {
 
             @Override
-            public void onResponse(final Call<MangaEdenListResponse> call, final Response<MangaEdenListResponse> response) {
+            public void onResponse(@NonNull final Call<MangaEdenListResponse> call, @NonNull final Response<MangaEdenListResponse> response) {
 
                 Toast.makeText(MainActivity.this, "Total manga - Immutables: " + response.body().total(), Toast.LENGTH_LONG).show();
             }
 
             @Override
-            public void onFailure(final Call<MangaEdenListResponse> call, final Throwable t) {
+            public void onFailure(@NonNull final Call<MangaEdenListResponse> call, @NonNull final Throwable t) {
 
                 Log.e("RETROFIT", t.getLocalizedMessage(), t);
             }
@@ -63,20 +62,18 @@ public class MainActivity extends AppCompatActivity {
 
         MangaEdenService mangaEdenService = NetworkConnection.initializeServiceInstance(MangaEdenService.class);
 
-        mangaEdenService.getAllMangaRx(1).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(mangaEdenListResponse -> Toast.makeText(MainActivity.this, "Total manga "
-                + "(Rx request) - standard Gson: " + mangaEdenListResponse.getTotal(), Toast.LENGTH_LONG).show(), Throwable::printStackTrace);
+        mangaEdenService.getAllMangaRx(1).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(mangaEdenListResponse -> Toast.makeText(MainActivity.this, "Total manga " + "(Rx request) - standard Gson: " + mangaEdenListResponse.getTotal(), Toast.LENGTH_LONG).show(), Throwable::printStackTrace);
 
         mangaEdenService.getAllManga(0).enqueue(new Callback<com.colantoni.federico.simpleapp.service.response.gson.MangaEdenListResponse>() {
 
             @Override
-            public void onResponse(final Call<com.colantoni.federico.simpleapp.service.response.gson.MangaEdenListResponse> call, final Response<com.colantoni.federico.simpleapp.service.response
-                    .gson.MangaEdenListResponse> response) {
+            public void onResponse(@NonNull final Call<com.colantoni.federico.simpleapp.service.response.gson.MangaEdenListResponse> call, @NonNull final Response<com.colantoni.federico.simpleapp.service.response.gson.MangaEdenListResponse> response) {
 
                 Toast.makeText(MainActivity.this, "Total manga - standard Gson: " + response.body().getTotal(), Toast.LENGTH_LONG).show();
             }
 
             @Override
-            public void onFailure(final Call<com.colantoni.federico.simpleapp.service.response.gson.MangaEdenListResponse> call, final Throwable t) {
+            public void onFailure(@NonNull final Call<com.colantoni.federico.simpleapp.service.response.gson.MangaEdenListResponse> call, @NonNull final Throwable t) {
 
                 Log.e("RETROFIT", t.getLocalizedMessage(), t);
             }

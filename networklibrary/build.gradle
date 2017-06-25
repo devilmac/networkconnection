@@ -1,7 +1,7 @@
 apply plugin: 'java'
 apply plugin: 'com.github.dcendents.android-maven'
 
-def libraryVersionName = '0.3.2'
+def libraryVersionName = '0.4.0'
 
 group = 'com.github.devilmac'
 version = "$libraryVersionName"
@@ -27,12 +27,12 @@ dependencies {
     testCompile 'junit:junit:4.12'
 
     def retrofit = '2.3.0'
-    def okhttp3 = '3.8.0'
-    def rxJava = '1.2.4'
+    def okhttp3 = '3.8.1'
+    def rxJava = '2.1.1'
 
     compile "com.squareup.retrofit2:retrofit:$retrofit"
     compile "com.squareup.okhttp3:logging-interceptor:$okhttp3"
     compile "com.squareup.retrofit2:converter-gson:$retrofit"
-    compile "com.squareup.retrofit2:adapter-rxjava:$retrofit"
-    compile "io.reactivex:rxjava:$rxJava"
+    compile "com.squareup.retrofit2:adapter-rxjava2:$retrofit"
+    compile "io.reactivex.rxjava2:rxjava:$rxJava"
 }
