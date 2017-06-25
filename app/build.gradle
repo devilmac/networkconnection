@@ -1,4 +1,5 @@
 apply plugin: 'com.android.application'
+apply plugin: 'me.tatarka.retrolambda'
 
 android {
     compileSdkVersion rootProject.ext.compileSdkVersion
@@ -38,21 +39,23 @@ android {
 }
 
 dependencies {
-    implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation project(":networklibrary")
-    androidTestImplementation('com.android.support.test.espresso:espresso-core:2.3-alpha', {
+    compile fileTree(dir: 'libs', include: ['*.jar'])
+    compile project(":networklibrary")
+    androidTestCompile('com.android.support.test.espresso:espresso-core:2.3-alpha', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
-    implementation 'com.android.support:appcompat-v7:26.0.0-alpha1'
-    testImplementation 'junit:junit:4.12'
+    compile 'com.android.support:appcompat-v7:26.0.0-alpha1'
+    testCompile 'junit:junit:4.12'
+
+    retrolambdaConfig "net.orfjackal.retrolambda:retrolambda:2.3.0"
 
     def immutables = '2.5.3'
     def rxAndroid = '2.0.1'
 
     annotationProcessor "org.immutables:value:$immutables"
-    compileOnly "org.immutables:value:$immutables"
-    compileOnly "org.immutables:gson:$immutables"
-    compileOnly "org.immutables:builder:$immutables"
-    compileOnly "org.immutables:serial:$immutables"
-    implementation "io.reactivex.rxjava2:rxandroid:$rxAndroid"
+    provided "org.immutables:value:$immutables"
+    provided "org.immutables:gson:$immutables"
+    provided "org.immutables:builder:$immutables"
+    provided "org.immutables:serial:$immutables"
+    compile "io.reactivex.rxjava2:rxandroid:$rxAndroid"
 }
