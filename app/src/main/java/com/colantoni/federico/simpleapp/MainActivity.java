@@ -13,6 +13,7 @@ import com.colantoni.federico.simpleapp.service.response.immutables.GsonAdapters
 import com.colantoni.federico.simpleapp.service.response.immutables.MangaEdenListResponse;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
 import okhttp3.Cache;
 import okhttp3.OkHttpClient;
@@ -43,7 +44,14 @@ public class MainActivity extends AppCompatActivity {
 
         MangaEdenService mangaEdenServiceWithImmutables = NetworkConnection.initializeServiceInstance(MangaEdenService.class, new GsonAdaptersImmutables());
 
-        mangaEdenServiceWithImmutables.getAllMangaImmutablesRx(1).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(mangaEdenListResponse -> Toast.makeText(MainActivity.this, "Total manga (Rx request) - Immutables: " + mangaEdenListResponse.total(), Toast.LENGTH_LONG).show(), Throwable::printStackTrace);
+        mangaEdenServiceWithImmutables.getAllMangaImmutablesRx(1).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(new Consumer<MangaEdenListResponse>() {
+
+            @Override
+            public void accept(@io.reactivex.annotations.NonNull MangaEdenListResponse mangaEdenListResponse) throws Exception {
+
+                Toast.makeText(MainActivity.this, "Total manga (Rx request) - Immutables: " + mangaEdenListResponse.total(), Toast.LENGTH_LONG).show();
+            }
+        }, new ThrowableConsumer());
 
         mangaEdenServiceWithImmutables.getAllMangaImmutables(0).enqueue(new Callback<MangaEdenListResponse>() {
 
@@ -62,7 +70,15 @@ public class MainActivity extends AppCompatActivity {
 
         MangaEdenService mangaEdenService = NetworkConnection.initializeServiceInstance(MangaEdenService.class);
 
-        mangaEdenService.getAllMangaRx(1).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(mangaEdenListResponse -> Toast.makeText(MainActivity.this, "Total manga " + "(Rx request) - standard Gson: " + mangaEdenListResponse.getTotal(), Toast.LENGTH_LONG).show(), Throwable::printStackTrace);
+        mangaEdenService.getAllMangaRx(1).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(new Consumer<com.colantoni.federico.simpleapp.service.response.gson
+                .MangaEdenListResponse>() {
+
+            @Override
+            public void accept(@io.reactivex.annotations.NonNull com.colantoni.federico.simpleapp.service.response.gson.MangaEdenListResponse mangaEdenListResponse) throws Exception {
+
+                Toast.makeText(MainActivity.this, "Total manga " + "(Rx request) - standard Gson: " + mangaEdenListResponse.getTotal(), Toast.LENGTH_LONG).show();
+            }
+        }, new ThrowableConsumer());
 
         mangaEdenService.getAllManga(0).enqueue(new Callback<com.colantoni.federico.simpleapp.service.response.gson.MangaEdenListResponse>() {
 
@@ -92,5 +108,18 @@ public class MainActivity extends AppCompatActivity {
         builder.addInterceptor(httpLoggingInterceptor);
 
         return builder.build();
+    }
+
+    private static class ThrowableConsumer implements Consumer<Throwable> {
+
+        ThrowableConsumer() {
+
+        }
+
+        @Override
+        public void accept(@io.reactivex.annotations.NonNull Throwable throwable) throws Exception {
+
+            throwable.printStackTrace();
+        }
     }
 }

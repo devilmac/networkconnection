@@ -77,8 +77,10 @@ public final class NetworkConnection implements Serializable {
                 builder.client(sOkHttpClient);
             }
             else {
-                builder.client(OkHttpModule.provideOkHttpClient()).baseUrl(sBaseUrl);
+                builder.client(OkHttpModule.provideOkHttpClient());
             }
+
+            builder.baseUrl(sBaseUrl);
         }
         else {
 
