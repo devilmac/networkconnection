@@ -22,13 +22,9 @@ import org.objectweb.asm.tree.MethodInsnNode;
 import org.objectweb.asm.tree.MethodNode;
 
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.EnumSet;
 import java.util.List;
 import java.util.ListIterator;
-
-import lombok.ast.MethodDeclaration;
-import lombok.ast.Node;
 
 
 public class NetworkConnectionLintDetector extends Detector implements Detector.UastScanner {
@@ -48,7 +44,7 @@ public class NetworkConnectionLintDetector extends Detector implements Detector.
     private static final String ISSUE_DESCRIPTION = "NetworkConnection.setBaseUrl() method required";
 
     private static final String ISSUE_EXPLANATION = "You have to set the base URL for your services using the NetworkConnection.setBaseUrl() method, otherwise project won't compile. It's " +
-    "recommended to call this method inside a custom " + "application class.";
+            "recommended to call this method inside a custom " + "application class.";
 
     private static final Category ISSUE_CATEGORY = Category.CORRECTNESS;
 
@@ -82,11 +78,11 @@ public class NetworkConnectionLintDetector extends Detector implements Detector.
         return Speed.FAST;
     }
 
-    @Override
-    public List<Class<? extends Node>> getApplicableNodeTypes() {
-
-        return Collections.singletonList(MethodDeclaration.class);
-    }
+    //    @Override
+    //    public List<Class<? extends Node>> getApplicableNodeTypes() {
+    //
+    //        return Collections.singletonList(MethodDeclaration.class);
+    //    }
 
     @Override
     public void checkClass(@NonNull final ClassContext context, @NonNull final ClassNode classNode) {
@@ -96,7 +92,7 @@ public class NetworkConnectionLintDetector extends Detector implements Detector.
         Location location = context.getLocation(classNode);
 
         if (!context.getDriver().isSubclassOf(classNode, SdkConstants.CLASS_ACTIVITY) || !context.getDriver().isSubclassOf(classNode, SdkConstants.CLASS_FRAGMENT) || !context.getDriver()
-        .isSubclassOf(classNode, SdkConstants.CLASS_V4_FRAGMENT) || !context.getDriver().isSubclassOf(classNode, SdkConstants.CLASS_APPLICATION)) {
+                .isSubclassOf(classNode, SdkConstants.CLASS_V4_FRAGMENT) || !context.getDriver().isSubclassOf(classNode, SdkConstants.CLASS_APPLICATION)) {
 
             return;
         }
