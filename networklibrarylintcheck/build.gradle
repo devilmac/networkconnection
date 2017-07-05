@@ -19,15 +19,15 @@ repositories {
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
 
-    compile 'com.android.tools.lint:lint-api:25.5.0-alpha-preview-02'
-    compile 'com.android.tools.lint:lint-api:25.5.0-alpha-preview-02'
-    compile 'com.android.tools.lint:lint-checks:25.5.0-alpha-preview-02'
+    compile 'com.android.tools.lint:lint-api:26.0.0-alpha5'
+    compile 'com.android.tools.lint:lint-api:26.0.0-alpha5'
+    compile 'com.android.tools.lint:lint-checks:26.0.0-alpha5'
     testCompile 'junit:junit:4.12'
     testCompile 'org.assertj:assertj-core:3.8.0'
     testCompile 'org.mockito:mockito-core:2.8.47'
-    testCompile 'com.android.tools.lint:lint-api:25.5.0-alpha-preview-02'
-    testCompile 'com.android.tools.lint:lint-tests:25.3.0'
-    testCompile 'com.android.tools:testutils:25.3.0'
+    testCompile 'com.android.tools.lint:lint-api:26.0.0-alpha5'
+    testCompile 'com.android.tools.lint:lint-tests:26.0.0-alpha5'
+    testCompile 'com.android.tools:testutils:26.0.0-alpha5'
 }
 
 jar {
