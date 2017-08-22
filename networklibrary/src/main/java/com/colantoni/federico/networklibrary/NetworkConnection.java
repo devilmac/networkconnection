@@ -2,15 +2,16 @@ package com.colantoni.federico.networklibrary;
 
 
 import com.colantoni.federico.networklibrary.retrofit.RetrofitModule;
+import com.colantoni.federico.networklibrary.retrofit.adapters.ConverterAdapterType;
+import com.colantoni.federico.networklibrary.retrofit.adapters.ConverterAdaptersRetrofitFactory;
 import com.colantoni.federico.networklibrary.retrofit.okhttp.OkHttpModule;
-import com.google.gson.GsonBuilder;
-import com.google.gson.TypeAdapterFactory;
 
 import java.io.Serializable;
 
+import io.reactivex.annotations.Nullable;
 import okhttp3.OkHttpClient;
+import retrofit2.Converter.Factory;
 import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
 
 
 /**
@@ -56,19 +57,36 @@ public final class NetworkConnection implements Serializable {
     }
 
     /**
-     * This method initializes an instance of the service you want to use.
+     * This method initializes an instance of the service you want to use. It's the same {@code initializeServiceInstance()} method but with {@code converterAdapterType} and {@code
+     * typeAdapterFactory} as null.
      *
-     * @param serviceClass         The kind of service to be used.
-     * @param typeAdapterFactories An array of TypeAdapterFactory to be added to the service; maybe empty.
-     * @param <S>                  Generic type of service class.
+     * @param <S>          Generic type of service class.
+     * @param serviceClass The kind of service to be used.
      *
      * @return An initialized instance of the specified service class.
      */
-    public static <S> S initializeServiceInstance(final Class<S> serviceClass, final TypeAdapterFactory... typeAdapterFactories) {
+    public static <S> S initializeServiceInstance(final Class<S> serviceClass) {
+
+        return initializeServiceInstance(serviceClass, null, null);
+    }
+
+    /**
+     * This method initializes an instance of the service you want to use.
+     *
+     * @param <S>                  Generic type of service class.
+     * @param serviceClass         The kind of service to be used.
+     * @param converterAdapterType The type of ConverterAdapterFactory to use
+     * @param typeAdapterFactory   The typeAdapter to create a ConverterFactory of kind of converterAdapterType
+     * @param typeAdapterFactories An array of TypeAdapterFactory to be added to the service; maybe empty.
+     *
+     * @return An initialized instance of the specified service class.
+     */
+    @SafeVarargs
+    public static <S, T> S initializeServiceInstance(final Class<S> serviceClass, ConverterAdapterType converterAdapterType, final T typeAdapterFactory, final T... typeAdapterFactories) {
 
         Retrofit.Builder builder = initRetrofitInstance();
 
-        builder = addTypeAdapterFactories(builder, typeAdapterFactories);
+        builder = addTypeAdapterFactories(builder, converterAdapterType, typeAdapterFactory, typeAdapterFactories);
 
         if (sBaseUrl != null) {
 
@@ -104,27 +122,24 @@ public final class NetworkConnection implements Serializable {
      * This method allows you to add to the Retrofit.Builder object an array of TypeAdapterFactory objects.
      *
      * @param builder              The instance of Retrofit.Builder to add adapter factories.
-     * @param typeAdapterFactories An array of TypeAdapteractory; maybe empty.
+     * @param converterAdapterType The type of ConverterFactory to use.
+     * @param typeAdapterFactories An array of factory adapters; maybe empty.
      *
      * @return The same instance of Retrofit.Builder passed as parameter.
      */
-    private static Retrofit.Builder addTypeAdapterFactories(final Retrofit.Builder builder, final TypeAdapterFactory... typeAdapterFactories) {
+    @SafeVarargs
+    private static <T> Retrofit.Builder addTypeAdapterFactories(final Retrofit.Builder builder, @Nullable ConverterAdapterType converterAdapterType, final T typeAdapterFactory, final T...
+    typeAdapterFactories) {
 
-        if (typeAdapterFactories.length > 0) {
-
-            for (TypeAdapterFactory factory : typeAdapterFactories) {
-
-                GsonBuilder gsonBuilder = new GsonBuilder();
-                gsonBuilder.registerTypeAdapterFactory(factory);
-
-                GsonConverterFactory gsonConverterFactory = GsonConverterFactory.create(gsonBuilder.create());
-
-                builder.addConverterFactory(gsonConverterFactory);
-            }
+        if (converterAdapterType == null) {
+            return builder;
         }
-        else {
 
-            builder.addConverterFactory(GsonConverterFactory.create());
+        ConverterAdaptersRetrofitFactory<T> converterAdaptersRetrofitFactory = new ConverterAdaptersRetrofitFactory<>(typeAdapterFactory, typeAdapterFactories);
+        Factory factory = converterAdaptersRetrofitFactory.getTypeAdapterRetrofit(converterAdapterType);
+
+        if (factory != null) {
+            builder.addConverterFactory(factory);
         }
 
         return builder;
