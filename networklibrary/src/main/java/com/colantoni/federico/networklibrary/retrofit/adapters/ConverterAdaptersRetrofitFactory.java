@@ -10,18 +10,14 @@ public class ConverterAdaptersRetrofitFactory<T> {
 
     private T typeAdapter;
 
-    private T[] typeAdapters;
 
-
-    @SafeVarargs
-    public ConverterAdaptersRetrofitFactory(@Nullable final T typeAdapter, final T... typeAdapters) {
+    public ConverterAdaptersRetrofitFactory(@Nullable final T typeAdapter) {
 
         this.typeAdapter = typeAdapter;
-        this.typeAdapters = typeAdapters;
     }
 
     public Factory getTypeAdapterRetrofit(ConverterAdapterType converterAdapterType) {
 
-        return converterAdapterType.getConverterAdapterRetrofitStrategy().getConverterAdapterFactory(typeAdapter, typeAdapters);
+        return converterAdapterType.getConverterAdapterRetrofitStrategy().getConverterAdapterFactory(typeAdapter);
     }
 }
