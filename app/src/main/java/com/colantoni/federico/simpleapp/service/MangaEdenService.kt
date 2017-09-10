@@ -8,8 +8,10 @@ import retrofit2.http.GET
 import retrofit2.http.Path
 
 
+/**  */
 interface MangaEdenService {
 
-    @GET(value = "list/$LANGUAGE/")
-    fun getAllMangaImmutables(@Path(LANGUAGE) language: Int): Call<MangaEdenListResponse>
+    /**  */
+    @GET(value = "list/{$LANGUAGE}/")
+    fun getAllManga(@Path(LANGUAGE) language: Int): Call<MangaEdenListResponse>
 }

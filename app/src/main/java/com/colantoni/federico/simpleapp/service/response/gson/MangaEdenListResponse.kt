@@ -1,6 +1,10 @@
 package com.colantoni.federico.simpleapp.service.response.gson
 
+import com.squareup.moshi.Json
 
+
+/**  */
+@Json(name = "MangaEdenListResponse")
 class MangaEdenListResponse {
 
     var total: Int = 0

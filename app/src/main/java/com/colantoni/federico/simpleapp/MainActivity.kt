@@ -5,9 +5,10 @@ import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.util.Log
 import android.widget.Toast
+import com.colantoni.federico.networklibrary.core.NetworkConnection
 import com.colantoni.federico.simpleapp.service.MangaEdenService
 import com.colantoni.federico.simpleapp.service.response.gson.MangaEdenListResponse
-import com.colantoni.federico.simpleapp.service.response.gson.MangaEdenListResponseManga
+import com.squareup.moshi.KotlinJsonAdapterFactory
 import com.squareup.moshi.Moshi
 import retrofit2.Call
 import retrofit2.Callback
@@ -30,16 +31,15 @@ class MainActivity : AppCompatActivity() {
 
         val moshiBuilder = Moshi.Builder()
 
-        moshiBuilder.add(MangaEdenListResponse::class.java)
-        moshiBuilder.add(MangaEdenListResponseManga::class.java)
+        moshiBuilder.add(KotlinJsonAdapterFactory())
 
         val moshiConverterFactory = MoshiConverterFactory.create(moshiBuilder.build())
 
-        val mangaEdenServiceWithImmutables = com.colantoni.federico.networklibrary.core.NetworkConnection.NetworkConnectionBuilder(BASE_URL).converterFactory(moshiConverterFactory).rxAdapter(true).build().initializeServiceInstance(MangaEdenService::class.java)
+        val mangaEdenService = NetworkConnection(urlString = BASE_URL, converterFactory = moshiConverterFactory, useRxAdapter = true).initServiceInstance(MangaEdenService::class.java)
 
         val mangaLanguage = 1
 
-        mangaEdenServiceWithImmutables.getAllMangaImmutables(mangaLanguage).enqueue(object : Callback<MangaEdenListResponse> {
+        mangaEdenService.getAllManga(mangaLanguage).enqueue(object : Callback<MangaEdenListResponse> {
 
             /**  */
             override fun onResponse(call: Call<MangaEdenListResponse>, response: Response<MangaEdenListResponse>) {

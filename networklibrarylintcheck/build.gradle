@@ -3,28 +3,42 @@ apply plugin: 'java'
 buildscript {
     repositories {
         jcenter()
+        mavenCentral()
+        maven {
+            url 'https://plugins.gradle.org/m2/'
+        }
+        maven {
+            url 'https://maven.google.com'
+        }
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:2.3.3'
+        classpath 'com.android.tools.build:gradle:3.0.0-beta5'
     }
 }
 
 repositories {
     jcenter()
+    mavenCentral()
+    maven {
+        url 'https://plugins.gradle.org/m2/'
+    }
+    maven {
+        url 'https://maven.google.com'
+    }
 }
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
 
-    compile 'com.android.tools.lint:lint-api:26.0.0-beta4'
-    compile 'com.android.tools.lint:lint-api:26.0.0-beta4'
-    compile 'com.android.tools.lint:lint-checks:26.0.0-beta4'
+    compile 'com.android.tools.lint:lint-api:26.0.0-beta5'
+    compile 'com.android.tools.lint:lint-api:26.0.0-beta5'
+    compile 'com.android.tools.lint:lint-checks:26.0.0-beta5'
     testCompile 'junit:junit:4.12'
     testCompile 'org.assertj:assertj-core:3.8.0'
-    testCompile 'org.mockito:mockito-core:2.9.0'
-    testCompile 'com.android.tools.lint:lint-api:26.0.0-beta4'
-    testCompile 'com.android.tools.lint:lint-tests:26.0.0-beta4'
-    testCompile 'com.android.tools:testutils:26.0.0-beta4'
+    testCompile 'org.mockito:mockito-core:2.10.0'
+    testCompile 'com.android.tools.lint:lint-api:26.0.0-beta5'
+    testCompile 'com.android.tools.lint:lint-tests:26.0.0-beta5'
+    testCompile 'com.android.tools:testutils:26.0.0-beta5'
 }
 
 jar {
