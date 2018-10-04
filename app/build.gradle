@@ -3,14 +3,13 @@ apply plugin: 'kotlin-android'
 
 android {
     compileSdkVersion rootProject.ext.compileSdkVersion
-    buildToolsVersion rootProject.ext.buildToolsVersion
     defaultConfig {
         applicationId "com.colantoni.federico.simpleapp"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1
         versionName "1.0"
-        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         multiDexEnabled true
     }
     buildTypes {
@@ -38,14 +37,14 @@ android {
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation project(":networklibrary")
-    androidTestImplementation('com.android.support.test.espresso:espresso-core:3.0.1', {
+    androidTestImplementation('androidx.test.espresso:espresso-core:3.1.0-alpha4', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
-    implementation 'com.android.support:appcompat-v7:26.0.2'
-    implementation 'com.android.support:multidex:1.0.2'
+    implementation 'androidx.appcompat:appcompat:1.0.0'
+    implementation 'androidx.multidex:multidex:2.0.0'
     testImplementation 'junit:junit:4.12'
 
-    def rxAndroid = '2.0.1'
+    def rxAndroid = '2.1.0'
 
     implementation "io.reactivex.rxjava2:rxandroid:$rxAndroid"
     implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
