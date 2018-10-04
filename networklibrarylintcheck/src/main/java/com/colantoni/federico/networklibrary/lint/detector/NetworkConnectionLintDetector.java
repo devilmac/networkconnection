@@ -16,6 +16,7 @@ import com.android.tools.lint.detector.api.Severity;
 import com.android.tools.lint.detector.api.Speed;
 import com.android.tools.lint.detector.api.TextFormat;
 
+import org.jetbrains.annotations.NotNull;
 import org.objectweb.asm.tree.AbstractInsnNode;
 import org.objectweb.asm.tree.ClassNode;
 import org.objectweb.asm.tree.MethodInsnNode;
@@ -58,53 +59,35 @@ public class NetworkConnectionLintDetector extends Detector implements Detector.
      * Constructs a new {@link NetworkConnectionLintDetector} check
      */
     public NetworkConnectionLintDetector() {
-
         //Empty detector constructor
     }
 
     @Override
-    public void afterCheckProject(final Context context) {
-
+    public void afterCheckProject(@NotNull final Context context) {
         if (context.getProject() == context.getMainProject() && !context.getMainProject().isLibrary()) {
-
             context.report(ISSUE, Location.create(context.file), ISSUE.getBriefDescription(TextFormat.TEXT));
         }
     }
 
-    @NonNull
+    @NotNull
     @Override
-    public Speed getSpeed() {
-
-        return Speed.FAST;
+    public Speed getSpeed(@NotNull Issue issue) {
+        return super.getSpeed(issue);
     }
 
-    //    @Override
-    //    public List<Class<? extends Node>> getApplicableNodeTypes() {
-    //
-    //        return Collections.singletonList(MethodDeclaration.class);
-    //    }
-
     @Override
-    public void checkClass(@NonNull final ClassContext context, @NonNull final ClassNode classNode) {
-
+    public void checkClass(@NotNull final ClassContext context, @NotNull final ClassNode classNode) {
         super.checkClass(context, classNode);
-
         Location location = context.getLocation(classNode);
-
         if (!context.getDriver().isSubclassOf(classNode, SdkConstants.CLASS_ACTIVITY) || !context.getDriver().isSubclassOf(classNode, SdkConstants.CLASS_FRAGMENT) || !context.getDriver()
-                .isSubclassOf(classNode, SdkConstants.CLASS_V4_FRAGMENT) || !context.getDriver().isSubclassOf(classNode, SdkConstants.CLASS_APPLICATION)) {
-
+                .isSubclassOf(classNode, SdkConstants.CLASS_V4_FRAGMENT.defaultName()) || !context.getDriver().isSubclassOf(classNode, SdkConstants.CLASS_APPLICATION)) {
             return;
         }
-
         boolean callsBeginTransaction = checkIfCallBeginTransation(classNode);
-
         if (!callsBeginTransaction) {
-
             context.report(ISSUE, location, "You have to call " + BASE_URL_METHOD);
         }
     }
-
     //    @Override
     //    public void checkClass(@NonNull final JavaContext context, @Nullable final ClassDeclaration declaration, @NonNull final Node node, @NonNull final JavaParser.ResolvedClass resolvedClass) {
     //
@@ -130,10 +113,8 @@ public class NetworkConnectionLintDetector extends Detector implements Detector.
 
     @Override
     public List<String> applicableSuperClasses() {
-
-        return Arrays.asList(SdkConstants.CLASS_ACTIVITY, SdkConstants.CLASS_APPLICATION, SdkConstants.CLASS_FRAGMENT, SdkConstants.CLASS_V4_FRAGMENT);
+        return Arrays.asList(SdkConstants.CLASS_ACTIVITY, SdkConstants.CLASS_APPLICATION, SdkConstants.CLASS_FRAGMENT, SdkConstants.CLASS_V4_FRAGMENT.defaultName());
     }
-
     //    private static void iterateOnClassMethods(@NonNull final JavaParser.ResolvedClass resolvedClass, final String methodName) {
     //
     //        Iterable<JavaParser.ResolvedMethod> methods = resolvedClass.getMethods(methodName, false);
@@ -146,27 +127,23 @@ public class NetworkConnectionLintDetector extends Detector implements Detector.
 
     @SuppressWarnings("unchecked") // ASM API
     private boolean checkIfCallBeginTransation(final ClassNode classNode) {
-
         MethodNode onCreate = findMethod(classNode.methods, "onCreate", ON_CREATE_SIG);
+        assert onCreate != null;
         return checkIfCallBeginTransationAux(classNode, onCreate);
     }
 
     @SuppressWarnings("unchecked") // ASM API
     private boolean checkIfCallBeginTransationAux(final ClassNode classNode, @NonNull final MethodNode method) {
-
         ListIterator<AbstractInsnNode> iterator = method.instructions.iterator();
         while (iterator.hasNext()) {
             AbstractInsnNode insnNode = iterator.next();
             if (insnNode.getType() == AbstractInsnNode.METHOD_INSN) {
                 MethodInsnNode methodInsnNode = (MethodInsnNode) insnNode;
-
                 if ("setBaseUrl".equals(methodInsnNode.name) && "NetworkConnection".equals(methodInsnNode.owner)) {
                     return true;
                 }
-
                 if (methodInsnNode.owner.equals(classNode.name)) {
                     MethodNode child = findMethod(classNode.methods, methodInsnNode.name, methodInsnNode.desc);
-
                     if (child != null) {
                         return checkIfCallBeginTransationAux(classNode, child);
                     }
@@ -178,7 +155,6 @@ public class NetworkConnectionLintDetector extends Detector implements Detector.
 
     @Nullable
     private MethodNode findMethod(@NonNull final List<MethodNode> methods, @NonNull final String name, @NonNull final String desc) {
-
         for (MethodNode method : methods) {
             if (name.equals(method.name) && desc.equals(method.desc)) {
                 return method;
