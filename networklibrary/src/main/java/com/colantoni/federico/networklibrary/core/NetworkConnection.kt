@@ -1,17 +1,14 @@
 package com.colantoni.federico.networklibrary.core
 
-
 import okhttp3.OkHttpClient
 import retrofit2.Converter.Factory
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 
-
 /**
  * Singleton class to be used as HTTP request manager.
  */
-class NetworkConnection constructor(urlString: String, private val okHttpClient: OkHttpClient? = null, val converterFactory: Factory? = null, val useRxAdapter: Boolean? = false) {
-
+class NetworkConnection constructor(urlString: String, private val okHttpClient: OkHttpClient = OkHttpClient(), val converterFactory: Factory? = null, val useRxAdapter: Boolean? = false) {
     private val serviceBaseUrl: String = urlString
 
     /**
@@ -23,28 +20,23 @@ class NetworkConnection constructor(urlString: String, private val okHttpClient:
     </S> */
     fun <S> initServiceInstance(serviceClass: Class<S>): S {
         val builder = initRetrofitInstance()
-
         builder.addConverterFactory(converterFactory!!)
-
-        if (okHttpClient != null) {
-
-            builder.client(okHttpClient)
-        }
-
+        builder.client(okHttpClient)
         builder.baseUrl(serviceBaseUrl)
-
         val retrofit = builder.build()
-
         return retrofit.create(serviceClass)
     }
 
     private fun initRetrofitInstance(): Retrofit.Builder {
-
         val builder = Retrofit.Builder()
 
-        return if (this.useRxAdapter!!)
-            builder.addCallAdapterFactory(RxJava2CallAdapterFactory.create())
-        else
-            builder
+        return when {
+            this.useRxAdapter!! -> {
+                builder.addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+            }
+            else -> {
+                builder
+            }
+        }
     }
 }
