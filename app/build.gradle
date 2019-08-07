@@ -40,11 +40,17 @@ dependencies {
     androidTestImplementation('androidx.test.espresso:espresso-core:3.1.0-alpha4', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
-    implementation 'androidx.appcompat:appcompat:1.0.0'
-    implementation 'androidx.multidex:multidex:2.0.0'
-    testImplementation 'junit:junit:4.12'
+    implementation 'androidx.appcompat:appcompat:1.0.2'
+    implementation 'androidx.multidex:multidex:2.0.1'
+    testImplementation 'junit:junit:4.13-beta-3'
 
-    def rxAndroid = '2.1.0'
+    def arch_version = '2.2.0-alpha02'
+    implementation "androidx.lifecycle:lifecycle-extensions:$arch_version"
+    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$arch_version"
+    implementation "androidx.lifecycle:lifecycle-livedata-ktx:$arch_version"
+    implementation "androidx.lifecycle:lifecycle-runtime-ktx:$arch_version"
+
+    def rxAndroid = '2.1.1'
 
     implementation "io.reactivex.rxjava2:rxandroid:$rxAndroid"
     implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
