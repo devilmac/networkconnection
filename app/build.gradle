@@ -27,16 +27,11 @@ android {
         exclude 'META-INF/BCKEY.DSA'
         exclude 'AUTHORS'
     }
-    configurations.all {
-        resolutionStrategy {
-            force 'com.android.support:multidex:1.0.2'
-        }
-    }
 }
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation project(":networklibrary")
+    api project(":networklibrary")
     androidTestImplementation('androidx.test.espresso:espresso-core:3.1.0-alpha4', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
@@ -50,8 +45,5 @@ dependencies {
     implementation "androidx.lifecycle:lifecycle-livedata-ktx:$arch_version"
     implementation "androidx.lifecycle:lifecycle-runtime-ktx:$arch_version"
 
-    def rxAndroid = '2.1.1'
-
-    implementation "io.reactivex.rxjava2:rxandroid:$rxAndroid"
     implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
 }

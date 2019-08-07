@@ -1,14 +1,15 @@
 package com.colantoni.federico.networklibrary.core
 
 import okhttp3.OkHttpClient
-import retrofit2.Converter.Factory
+import retrofit2.Converter
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
+import retrofit2.converter.gson.GsonConverterFactory
 
 /**
  * Singleton class to be used as HTTP request manager.
  */
-class NetworkConnection constructor(urlString: String, private val okHttpClient: OkHttpClient = OkHttpClient(), val converterFactory: Factory? = null, val useRxAdapter: Boolean? = false) {
+class NetworkConnection constructor(urlString: String, private val okHttpClient: OkHttpClient = OkHttpClient(), private val converterFactory: Converter.Factory? = null, val useRxAdapter: Boolean? = false) {
     private val serviceBaseUrl: String = urlString
 
     /**
@@ -20,7 +21,16 @@ class NetworkConnection constructor(urlString: String, private val okHttpClient:
     </S> */
     fun <S> initServiceInstance(serviceClass: Class<S>): S {
         val builder = initRetrofitInstance()
-        builder.addConverterFactory(converterFactory!!)
+
+        when (converterFactory != null) {
+            true -> {
+                builder.addConverterFactory(converterFactory)
+            }
+            else -> {
+                builder.addConverterFactory(GsonConverterFactory.create())
+            }
+        }
+
         builder.client(okHttpClient)
         builder.baseUrl(serviceBaseUrl)
         val retrofit = builder.build()

@@ -8,8 +8,8 @@ class MangaViewModel : ViewModel() {
     private val repository: MangaRepository = MangaRepository()
 
     val firstTodo = liveData(Dispatchers.IO) {
-        val retrivedTodo = repository.getManga(1)
+        val retrievedTodo = repository.getManga(1)
 
-        emit(retrivedTodo)
+        emit(retrievedTodo)
     }
 }
