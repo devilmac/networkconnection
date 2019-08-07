@@ -1,10 +1,5 @@
 package com.colantoni.federico.simpleapp.service.response.gson
 
-import com.squareup.moshi.Json
-
-
-/**  */
-@Json(name = "MangaEdenListResponseManga")
 class MangaEdenListResponseManga {
 
     var a: String? = null
