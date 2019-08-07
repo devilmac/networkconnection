@@ -1,7 +1,7 @@
 **NetworkConnection**
 [![Release](https://jitpack.io/v/devilmac/networkconnection.svg)](https://jitpack.io/#devilmac/networkconnection)
 
-This library is a simple base network connection based on Retrofit.
+This library is a simple base network connection based on Retrofit, which make you able to create a Retrofit service in a fancy way using a builder pattern. It based on latest version of Retrofit, so it also support coroutines!
 NetworkConnection also supports RxJava to make HTTP requests.
 
 If you want to use NetworkConnection in your project, you have to do the following steps:
