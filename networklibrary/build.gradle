@@ -27,34 +27,34 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     testImplementation 'junit:junit:4.13'
 
-    api 'com.squareup.retrofit2:retrofit:2.8.1'
-    api 'com.squareup.okhttp3:logging-interceptor:4.5.0'
-    api 'com.squareup.retrofit2:converter-gson:2.8.1'
+    implementation 'com.squareup.retrofit2:retrofit:2.8.1'
+    implementation 'com.squareup.okhttp3:logging-interceptor:4.5.0'
+    implementation 'com.squareup.retrofit2:converter-gson:2.8.1'
 
-    api 'com.squareup.retrofit2:converter-moshi:2.8.1'
-    api 'com.squareup.moshi:moshi:1.9.2'
-    api 'com.squareup.moshi:moshi-kotlin:1.9.2'
+    implementation 'com.squareup.retrofit2:converter-moshi:2.8.1'
+    implementation 'com.squareup.moshi:moshi:1.9.2'
+    implementation 'com.squareup.moshi:moshi-kotlin:1.9.2'
 
-    api('com.squareup.retrofit2:converter-simplexml:2.8.1') {
+    implementation('com.squareup.retrofit2:converter-simplexml:2.8.1') {
         exclude group: 'xpp3', module: 'xpp3'
         exclude group: 'stax', module: 'stax-api'
         exclude group: 'stax', module: 'stax'
     }
 
-    api 'com.squareup.retrofit2:converter-jaxb:2.8.1'
+    implementation 'com.squareup.retrofit2:converter-jaxb:2.8.1'
 
-    api 'com.squareup.retrofit2:converter-jackson:2.8.1'
-    api 'com.fasterxml.jackson.core:jackson-core:2.9.7'
+    implementation 'com.squareup.retrofit2:converter-jackson:2.8.1'
+    implementation 'com.fasterxml.jackson.core:jackson-core:2.9.7'
 
-    api 'com.squareup.retrofit2:converter-wire:2.8.1'
-    api 'com.squareup.wire:wire-runtime:3.1.0'
+    implementation 'com.squareup.retrofit2:converter-wire:2.8.1'
+    implementation 'com.squareup.wire:wire-runtime:3.1.0'
 
-    api 'com.squareup.retrofit2:converter-scalars:2.8.1'
+    implementation 'com.squareup.retrofit2:converter-scalars:2.8.1'
 
-    api 'com.squareup.retrofit2:adapter-guava:2.8.1'
-    api 'com.squareup.retrofit2:adapter-rxjava2:2.8.1'
-    api 'com.squareup.retrofit2:adapter-rxjava:2.8.1'
-    api 'io.reactivex.rxjava2:rxjava:2.2.19'
+    implementation 'com.squareup.retrofit2:adapter-guava:2.8.1'
+    implementation 'com.squareup.retrofit2:adapter-rxjava2:2.8.1'
+    implementation 'com.squareup.retrofit2:adapter-rxjava:2.8.1'
+    implementation 'io.reactivex.rxjava2:rxjava:2.2.19'
 
     implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
 
