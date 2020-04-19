@@ -3,7 +3,6 @@ apply plugin: 'kotlin-android'
 
 android {
     compileSdkVersion rootProject.ext.compileSdkVersion
-    buildToolsVersion "29.0.2"
     defaultConfig {
         applicationId "com.colantoni.federico.simpleapp"
         minSdkVersion rootProject.ext.minSdkVersion
@@ -28,36 +27,28 @@ android {
         exclude 'META-INF/BCKEY.DSA'
         exclude 'AUTHORS'
     }
-
-    sourceSets["main"].java.srcDir("src/main/kotlin")
-
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
+        sourceCompatibility = JavaVersion.VERSION_1_8
+        targetCompatibility = JavaVersion.VERSION_1_8
     }
-}
-
-configurations.all {
-    resolutionStrategy {
-        force "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
+    buildToolsVersion = '29.0.2'
+    configurations.all {
+        resolutionStrategy {
+            force 'com.android.support:multidex:1.0.2'
+        }
     }
 }
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation project(":networklibrary")
-    androidTestImplementation('androidx.test.espresso:espresso-core:3.3.0-alpha02', {
+    androidTestImplementation('androidx.test.espresso:espresso-core:3.1.0-alpha4', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
-    implementation 'androidx.appcompat:appcompat:1.0.2'
+    implementation 'androidx.appcompat:appcompat:1.1.0'
     implementation 'androidx.multidex:multidex:2.0.1'
-    testImplementation 'junit:junit:4.13-beta-3'
+    testImplementation 'junit:junit:4.13'
 
-    def arch_version = '2.2.0-alpha02'
-    implementation "androidx.lifecycle:lifecycle-extensions:$arch_version"
-    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$arch_version"
-    implementation "androidx.lifecycle:lifecycle-livedata-ktx:$arch_version"
-    implementation "androidx.lifecycle:lifecycle-runtime-ktx:$arch_version"
-
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
+    implementation 'io.reactivex.rxjava2:rxandroid:2.1.1'
+    implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
 }

@@ -12,7 +12,7 @@ buildscript {
         }
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.2.1'
+        classpath 'com.android.tools.build:gradle:3.6.3'
     }
 }
 
@@ -28,22 +28,22 @@ repositories {
 }
 
 dependencies {
-    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    compile fileTree(dir: 'libs', include: ['*.jar'])
 
-    implementation 'com.android.tools.lint:lint-api:26.6.0-alpha05'
-    implementation 'com.android.tools.lint:lint-api:26.6.0-alpha05'
-    implementation 'com.android.tools.lint:lint-checks:26.6.0-alpha05'
-    testImplementation 'junit:junit:4.12'
-    testImplementation 'org.assertj:assertj-core:3.13.2'
-    testImplementation 'org.mockito:mockito-core:3.0.0'
-    testImplementation 'com.android.tools.lint:lint-api:26.6.0-alpha05'
-    testImplementation 'com.android.tools.lint:lint-tests:26.6.0-alpha05'
-    testImplementation 'com.android.tools:testutils:26.6.0-alpha05'
+    compile 'com.android.tools.lint:lint-api:27.1.0-alpha06'
+    compile 'com.android.tools.lint:lint-api:27.1.0-alpha06'
+    compile 'com.android.tools.lint:lint-checks:27.1.0-alpha06'
+    testImplementation 'junit:junit:4.13'
+    testImplementation 'org.assertj:assertj-core:3.15.0'
+    testImplementation 'org.mockito:mockito-core:3.3.3'
+    testImplementation 'com.android.tools.lint:lint-api:27.1.0-alpha06'
+    testImplementation 'com.android.tools.lint:lint-tests:27.1.0-alpha06'
+    testImplementation 'com.android.tools:testutils:27.1.0-alpha06'
 }
 
 jar {
-    getArchiveBaseName().set('com.colantoni.federico.networklibrary.lint')
-    getArchiveVersion().set('1.0')
+    baseName 'com.colantoni.federico.networklibrary.lint'
+    version '1.0'
 
     manifest {
         attributes 'Manifest-Version': 1.0
