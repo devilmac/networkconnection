@@ -12,7 +12,7 @@ buildscript {
         }
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.2.0'
+        classpath 'com.android.tools.build:gradle:3.6.3'
     }
 }
 
@@ -30,15 +30,15 @@ repositories {
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
 
-    compile 'com.android.tools.lint:lint-api:26.3.0-alpha13'
-    compile 'com.android.tools.lint:lint-api:26.3.0-alpha13'
-    compile 'com.android.tools.lint:lint-checks:26.3.0-alpha13'
-    testCompile 'junit:junit:4.12'
-    testCompile 'org.assertj:assertj-core:3.11.1'
-    testCompile 'org.mockito:mockito-core:2.22.0'
-    testCompile 'com.android.tools.lint:lint-api:26.3.0-alpha13'
-    testCompile 'com.android.tools.lint:lint-tests:26.3.0-alpha13'
-    testCompile 'com.android.tools:testutils:26.3.0-alpha13'
+    compile 'com.android.tools.lint:lint-api:27.1.0-alpha06'
+    compile 'com.android.tools.lint:lint-api:27.1.0-alpha06'
+    compile 'com.android.tools.lint:lint-checks:27.1.0-alpha06'
+    testImplementation 'junit:junit:4.13'
+    testImplementation 'org.assertj:assertj-core:3.15.0'
+    testImplementation 'org.mockito:mockito-core:3.3.3'
+    testImplementation 'com.android.tools.lint:lint-api:27.1.0-alpha06'
+    testImplementation 'com.android.tools.lint:lint-tests:27.1.0-alpha06'
+    testImplementation 'com.android.tools:testutils:27.1.0-alpha06'
 }
 
 jar {
