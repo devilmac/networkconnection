@@ -1,7 +1,7 @@
 **NetworkConnection**
 [![Release](https://jitpack.io/v/devilmac/networkconnection.svg)](https://jitpack.io/#devilmac/networkconnection)
 
-This library is a simple base network connection based on Retrofit.
+This library is a simple base network connection based on Retrofit, which make you able to create a Retrofit service in a fancy way using a builder pattern. It based on latest version of Retrofit, so it also support coroutines!
 NetworkConnection also supports RxJava to make HTTP requests.
 
 If you want to use NetworkConnection in your project, you have to do the following steps:
@@ -24,12 +24,14 @@ If you want to use NetworkConnection in your project, you have to do the followi
 
 **How to use**
 
-Usage is very simple; all you have to do is the following:  
-* call `setBaseURL()` method to set the base URL of your services  
-* get an instance of NetworkConnection class like this  
-        `NetworkConnection netConn = NetworkConnection.getinstance();`  
-* then you have to initialize the Retrofit instance:  
-        `YourService service = networkConnection.initializeServiceInstance(this, YourService.class, TypeAdapterFactory... typeAdapterFactories);`  
-* finally, you can make HTTP requests using your service! You can use the standard Retrofit Call<T> class or the Observable<T> class of RxJava. Is up to you which method fits better your needs.
+Usage is very simple. All you have to do is the following:
+* call `setBaseURL()` method to set the base URL of your services (If you are an Android developer, I recommend to call this method in your custom application or in your main activity)
+* call `setCustomOkHttpClient()` method to use your own custom client instead of the default provided by the library
+* it's not longer needed to get an instance of NetworkConnection class, you can simply call `NetworkConnection.initializeServiceInstance()` method create an instance of the service you want to use:
+        `YourService service = NetworkConnection.initializeServiceInstance(this, YourService.class);`
+* if you have to add some JSON adapters different from the standard GSON serialization, like Jackson, Moshi, etc., you have to add them to the method above this way:
+        `YourService service = NetworkConnection.initializeServiceInstance(this, YourService.class, new TypeAdapterFactory());`
+        Check the Retrofit documentation for more details on [custom converters](http://square.github.io/retrofit/#restadapter-configuration).
+* finally, you can make HTTP requests using your service! In your service you can use the standard Retrofit Call<T> class or the Observable<T> class of RxJava. Is up to you choose which method fits better your needs.
 
-*N.B.*: `typeAdapterFactories` is used to pass to Retrofit instance of the library an array of Gson TypeAdapterFactory, if you have your response classes mapped in some way different from standard Gson serialization, like Jackson, Moshi etc., as specified here in Retrofit documentation [Custom converters](http://square.github.io/retrofit/#restadapter-configuration). Check the sample app for an example of usage of custom TypeAdapteractory adapters, in particular it was used Immutables library; you can find a detailed guide here [How to use Immutables with Retrofit in Android](https://medium.com/@fedecola/how-to-use-immutables-with-retrofit-in-android-dde4237deb4f).
+*N.B.*: Check the sample app for an example of usage of custom TypeAdapterFactory adapters, in particular it was used Immutables library; you can find a detailed guide here [How to use Immutables with Retrofit in Android](https://medium.com/@fedecola/how-to-use-immutables-with-retrofit-in-android-dde4237deb4f).
